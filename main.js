@@ -32,6 +32,12 @@ function initializeUi() {
   notificationButton.addEventListener("click", () => {
     displayNotification();
   });
+  subscribeButton.addEventListener("click", () => {
+    subscribePush();
+  });
+  unsubscribeButton.addEventListener("click", () => {
+    unsubscribePush();
+  });
 }
 
 function displayNotification() {
