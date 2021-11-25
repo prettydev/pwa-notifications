@@ -9,7 +9,7 @@
         align-items: center;
         justify-content: center;
       }
-      #enableNotifications {
+      .btn {
         height: 80px;
         width: 350px;
         background-color: black;
@@ -17,12 +17,15 @@
         border: 1px;
         border-radius: 500px;
         font-size: 24px;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <button id="enableNotifications">🔔 Enable Notification</button>
+      <button id="enableNotifications" class="btn">🔔 Enable Notification</button>
+      <button id="subscribeNotifications" class="btn">🔔 Subscribe Notification</button>
+      <button id="unsubscribeNotifications" class="btn">🔔 Unsubscribe Notification</button>
     </div>
     <script src="main.js"></script>
   </body>

@@ -1,6 +1,8 @@
 "use strict";
 
 const notificationButton = document.getElementById("enableNotifications");
+const subscribeButton = document.getElementById("subscribeNotifications");
+const unsubscribeButton = document.getElementById("unsubscribeNotifications");
 let swRegistration = null;
 
 initializeApp();
@@ -33,6 +35,10 @@ function initializeUi() {
 }
 
 function displayNotification() {
+  if (!('PushManager' in window)) {
+    alert('Sorry, Push notification isn\'t supported in your browser.');
+    return;
+  }
   if (window.Notification && Notification.permission === "granted") {
     notification();
   } else if (window.Notification && Notification.permission !== "denied") {
@@ -48,6 +54,52 @@ function displayNotification() {
       "You denied permissions to notifications. Please go to your browser or phone setting to allow notifications."
     );
   }
+}
+
+function subscribePush() {
+  navigator.serviceWorker.ready
+  .then(function(registration) {
+    registration.pushManager.getSubscription()
+    .catch(function (error) {
+      console.error('Error occurred while enabling push ', error);
+    });
+    registration.pushManager.subscribe({
+      userVisibleOnly: true 
+    })
+    .then(function (subscription) {
+      toast('Subscribed successfully.');
+      console.info('Push notification subscribed.');
+      console.log(subscription);
+    })
+    .catch(function (error) {
+      console.error('Push notification subscription error: ', error);
+    });
+  })
+}
+
+function unsubscribePush() {
+  navigator.serviceWorker.ready
+  .then(function(registration) {
+    registration.pushManager.getSubscription()
+    .then(function (subscription) {
+      if(!subscription) {
+        alert('Unable to unregister push notification.');
+        return;
+      }
+
+      subscription.unsubscribe()
+        .then(function () {
+          toast('Unsubscribed successfully.');
+          console.info('Push notification unsubscribed.');
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    })
+    .catch(function (error) {
+      console.error('Failed to unsubscribe push notification.');
+    });
+  })
 }
 
 function notification() {
